@@ -1,5 +1,14 @@
 #include "SudokuBoard.h"
 #include <iostream>
+#include <chrono>
+#include <thread> //For update frequency
+
+//To display the time in minutes and seconds format
+void displayTime(int seconds) {
+    int mins = seconds / 60; //Calculate minutes
+    int secs = seconds % 60; //Remainder (seconds)
+    std::cout << "\rTime: " << mins << ":" << (secs < 10 ? "0" : "") << secs << "   " << std::flush; //Used flush to ensure output is immediately displayed
+}
 
 using namespace std;
 
@@ -77,6 +86,18 @@ int main() {
     sudoku.loadBoard(exampleBoard);
     cout << "Reloaded board:\n";
     sudoku.printBoard();
+
+    // Timer
+    auto start = std::chrono::steady_clock::now(); //Record start time
+    int elapsed_seconds = 0; //Initialize variable to store the time in seconds
+    bool gameOver = false;
+
+    while (!gameOver) {
+        auto now = std::chrono::steady_clock::now(); //Current time
+        elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(now - start).count(); //Calculate the elapsed time in seconds by subtracting the start time from the current time
+        displayTime(elapsed_seconds); //Use display time function to show the elapsed time in minutes and seconds
+        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Update every 100ms
+    }
 
     return 0;
 }

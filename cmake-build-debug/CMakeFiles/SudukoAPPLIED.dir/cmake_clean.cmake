@@ -1,10 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/SudukoAPPLIED.dir/main.cpp.obj"
-  "CMakeFiles/SudukoAPPLIED.dir/main.cpp.obj.d"
-  "SudukoAPPLIED.exe"
-  "SudukoAPPLIED.exe.manifest"
+  "CMakeFiles/SudukoAPPLIED.dir/main.cpp.o"
+  "CMakeFiles/SudukoAPPLIED.dir/main.cpp.o.d"
+  "SudukoAPPLIED"
   "SudukoAPPLIED.pdb"
-  "libSudukoAPPLIED.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

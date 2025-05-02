@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/anass/OneDrive/Desktop/Spring 2025/ADS/SudukoAPPLIED/main.cpp" "CMakeFiles/SudukoAPPLIED.dir/main.cpp.obj" "gcc" "CMakeFiles/SudukoAPPLIED.dir/main.cpp.obj.d"
+  "/Users/farid/Documents/GitHub/SudukoAPPLIED/main.cpp" "CMakeFiles/SudukoAPPLIED.dir/main.cpp.o" "gcc" "CMakeFiles/SudukoAPPLIED.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

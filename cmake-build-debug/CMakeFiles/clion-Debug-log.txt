@@ -1,16 +1,16 @@
-"D:\CLion 2024.3.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" -S "C:\Users\anass\OneDrive\Desktop\Spring 2025\ADS\SudukoAPPLIED" -B "C:\Users\anass\OneDrive\Desktop\Spring 2025\ADS\SudukoAPPLIED\cmake-build-debug"
--- The C compiler identification is GNU 13.1.0
--- The CXX compiler identification is GNU 13.1.0
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S /Users/farid/Documents/GitHub/SudukoAPPLIED -B /Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug
+-- The C compiler identification is AppleClang 15.0.0.15000100
+-- The CXX compiler identification is AppleClang 15.0.0.15000100
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
--- Check for working C compiler: D:/CLion 2024.3.4/bin/mingw/bin/gcc.exe - skipped
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: D:/CLion 2024.3.4/bin/mingw/bin/g++.exe - skipped
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done (17.8s)
--- Generating done (0.1s)
--- Build files have been written to: C:/Users/anass/OneDrive/Desktop/Spring 2025/ADS/SudukoAPPLIED/cmake-build-debug
+-- Configuring done (9.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug

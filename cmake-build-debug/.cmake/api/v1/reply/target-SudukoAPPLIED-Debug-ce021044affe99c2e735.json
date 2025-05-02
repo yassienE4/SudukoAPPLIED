@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "SudukoAPPLIED.exe"
-		},
-		{
-			"path" : "SudukoAPPLIED.pdb"
+			"path" : "SudukoAPPLIED"
 		}
 	],
 	"backtrace" : 1,
@@ -38,7 +35,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++20 -fdiagnostics-color=always"
+					"fragment" : "-g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=13.5 -fcolor-diagnostics"
 				}
 			],
 			"language" : "CXX",
@@ -68,16 +65,12 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
-				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "SudukoAPPLIED",
-	"nameOnDisk" : "SudukoAPPLIED.exe",
+	"nameOnDisk" : "SudukoAPPLIED",
 	"paths" : 
 	{
 		"build" : ".",

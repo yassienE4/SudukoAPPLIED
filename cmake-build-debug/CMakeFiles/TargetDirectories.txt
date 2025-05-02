@@ -1,3 +1,3 @@
-C:/Users/anass/OneDrive/Desktop/Spring 2025/ADS/SudukoAPPLIED/cmake-build-debug/CMakeFiles/SudukoAPPLIED.dir
-C:/Users/anass/OneDrive/Desktop/Spring 2025/ADS/SudukoAPPLIED/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/anass/OneDrive/Desktop/Spring 2025/ADS/SudukoAPPLIED/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug/CMakeFiles/SudukoAPPLIED.dir
+/Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug/CMakeFiles/rebuild_cache.dir
