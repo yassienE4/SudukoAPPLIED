@@ -1,9 +1,10 @@
 #ifndef SUDOKU_BOARD_H
 #define SUDOKU_BOARD_H
 
-#include ".\data-structures\Graph.h"
-#include ".\data-structures\unorderedSet.h"
+#include "data-structures/Graph.h"
+#include "data-structures/unorderedSet.h"
 
+// Rest of the file remains the same
 class SudokuBoard {
 private:
     Graph constraintGraph;

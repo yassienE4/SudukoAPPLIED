@@ -1,6 +1,15 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.10)
 project(SudukoAPPLIED)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(SudukoAPPLIED main.cpp)
+# Include directories
+include_directories(${CMAKE_SOURCE_DIR})
+
+# Source files
+file(GLOB SOURCES
+    "*.cpp"
+    "data-structures/*.cpp"
+)
+
+add_executable(SudukoAPPLIED ${SOURCES})

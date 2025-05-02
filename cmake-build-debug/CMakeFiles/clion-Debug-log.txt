@@ -1,6 +1,6 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S /Users/farid/Documents/GitHub/SudukoAPPLIED -B /Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug
--- The C compiler identification is AppleClang 15.0.0.15000100
--- The CXX compiler identification is AppleClang 15.0.0.15000100
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/yassien/CLionProjects/SudukoAPPLIED -B /Users/yassien/CLionProjects/SudukoAPPLIED/cmake-build-debug
+-- The C compiler identification is AppleClang 16.0.0.16000026
+-- The CXX compiler identification is AppleClang 16.0.0.16000026
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
@@ -11,6 +11,6 @@
 -- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done (9.0s)
+-- Configuring done (2.7s)
 -- Generating done (0.0s)
--- Build files have been written to: /Users/farid/Documents/GitHub/SudukoAPPLIED/cmake-build-debug
+-- Build files have been written to: /Users/yassien/CLionProjects/SudukoAPPLIED/cmake-build-debug

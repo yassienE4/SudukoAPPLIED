@@ -5,7 +5,7 @@
 #ifndef SUDOKUSOLVER_H
 #define SUDOKUSOLVER_H
 
-#include "sudokuboard.h"
+#include "SudokuBoard.h"
 #include <vector>
 #include <utility>
 #include <random>

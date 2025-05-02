@@ -49,9 +49,73 @@ cmake_ninja_workdir = /Users/yassien/CLionProjects/SudukoAPPLIED/cmake-build-deb
 
 build cmake_object_order_depends_target_SudukoAPPLIED: phony || .
 
+build CMakeFiles/SudukoAPPLIED.dir/SudokuBoard.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/SudokuBoard.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/SudokuBoard.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
+build CMakeFiles/SudukoAPPLIED.dir/SudokuSolver.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/SudokuSolver.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/SudokuSolver.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
+build CMakeFiles/SudukoAPPLIED.dir/data-structures/customVector.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/data-structures/customVector.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/data-structures/customVector.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir/data-structures
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
+build CMakeFiles/SudukoAPPLIED.dir/data-structures/graph.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/data-structures/graph.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/data-structures/graph.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir/data-structures
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
+build CMakeFiles/SudukoAPPLIED.dir/data-structures/hashtable.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/data-structures/hashtable.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/data-structures/hashtable.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir/data-structures
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
+build CMakeFiles/SudukoAPPLIED.dir/data-structures/unorderedSet.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/data-structures/unorderedSet.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/data-structures/unorderedSet.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir/data-structures
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
 build CMakeFiles/SudukoAPPLIED.dir/main.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/main.cpp || cmake_object_order_depends_target_SudukoAPPLIED
   DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
+  OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
+  OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir
+  TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
+  TARGET_PDB = SudukoAPPLIED.pdb
+
+build CMakeFiles/SudukoAPPLIED.dir/player.cpp.o: CXX_COMPILER__SudukoAPPLIED_unscanned_Debug /Users/yassien/CLionProjects/SudukoAPPLIED/player.cpp || cmake_object_order_depends_target_SudukoAPPLIED
+  DEP_FILE = CMakeFiles/SudukoAPPLIED.dir/player.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1 -fcolor-diagnostics
+  INCLUDES = -I/Users/yassien/CLionProjects/SudukoAPPLIED
   OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
   OBJECT_FILE_DIR = CMakeFiles/SudukoAPPLIED.dir
   TARGET_COMPILE_PDB = CMakeFiles/SudukoAPPLIED.dir/
@@ -65,7 +129,7 @@ build CMakeFiles/SudukoAPPLIED.dir/main.cpp.o: CXX_COMPILER__SudukoAPPLIED_unsca
 #############################################
 # Link the executable SudukoAPPLIED
 
-build SudukoAPPLIED: CXX_EXECUTABLE_LINKER__SudukoAPPLIED_Debug CMakeFiles/SudukoAPPLIED.dir/main.cpp.o
+build SudukoAPPLIED: CXX_EXECUTABLE_LINKER__SudukoAPPLIED_Debug CMakeFiles/SudukoAPPLIED.dir/SudokuBoard.cpp.o CMakeFiles/SudukoAPPLIED.dir/SudokuSolver.cpp.o CMakeFiles/SudukoAPPLIED.dir/data-structures/customVector.cpp.o CMakeFiles/SudukoAPPLIED.dir/data-structures/graph.cpp.o CMakeFiles/SudukoAPPLIED.dir/data-structures/hashtable.cpp.o CMakeFiles/SudukoAPPLIED.dir/data-structures/unorderedSet.cpp.o CMakeFiles/SudukoAPPLIED.dir/main.cpp.o CMakeFiles/SudukoAPPLIED.dir/player.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.1
   OBJECT_DIR = CMakeFiles/SudukoAPPLIED.dir
   POST_BUILD = :
