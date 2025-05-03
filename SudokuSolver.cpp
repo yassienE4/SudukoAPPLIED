@@ -10,6 +10,9 @@
 SudokuSolver::SudokuSolver(SudokuBoard& sudokuBoard) 
     : board(sudokuBoard), rng(static_cast<unsigned int>(std::time(nullptr))) {
 }
+SudokuBoard& SudokuSolver::getBoard() const {
+    return board;
+}
 
 // Main solving algorithm using backtracking
 bool SudokuSolver::solve() {
@@ -67,10 +70,34 @@ std::pair<int, int> SudokuSolver::findEmptyCell() const {
 
 // Check if a specific move is valid based on Sudoku rules
 bool SudokuSolver::isValidMove(int row, int col, int val) const {
-    // Use the domain calculation to check if value is allowed
-    unorderedSet domain = board.calculateDomain(row, col);
-    return domain.contains(val);
+    // Check row
+    for (int c = 0; c < 9; c++) {
+        if (board.getValue(row, c) == val && c != col) {
+            return false;
+        }
+    }
+
+    // Check column
+    for (int r = 0; r < 9; r++) {
+        if (board.getValue(r, col) == val && r != row) {
+            return false;
+        }
+    }
+
+    // Check 3x3 box
+    int startRow = (row / 3) * 3;
+    int startCol = (col / 3) * 3;
+    for (int r = startRow; r < startRow + 3; r++) {
+        for (int c = startCol; c < startCol + 3; c++) {
+            if (board.getValue(r, c) == val && (r != row || c != col)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
+
 
 // Check if the current board is solvable
 bool SudokuSolver::isSolvable() {
@@ -216,32 +243,43 @@ bool SudokuSolver::hasUniqueSolution() {
 
 // Get a hint for the next move
 std::pair<int, int> SudokuSolver::getHint() {
-    // Find an empty cell
-    auto emptyCell = findEmptyCell();
-    if (emptyCell.first == -1) {
-        return emptyCell; // No empty cells
+    // Find an empty cell that has the smallest domain (fewest possibilities)
+    int minDomainSize = 10; // More than maximum possible (9)
+    std::pair<int, int> bestCell(-1, -1);
+
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            if (board.isEmpty(row, col)) {
+                unorderedSet domain = board.calculateDomain(row, col);
+                int domainSize = domain.size();
+
+                // If we find a cell with domain size 1, that's an immediate hint
+                if (domainSize == 1) {
+                    return std::make_pair(row, col);
+                }
+
+                // Otherwise keep track of the cell with smallest domain
+                if (domainSize < minDomainSize && domainSize > 0) {
+                    minDomainSize = domainSize;
+                    bestCell = std::make_pair(row, col);
+                }
+            }
+        }
     }
-    
-    // Save the current state
-    int currentBoard[9][9];
-    board.getBoardState(currentBoard);
-    
-    // Try to solve the board
-    bool solvable = solve();
-    
-    // If solved, get the value of the empty cell
-    int hintValue = 0;
-    if (solvable) {
-        hintValue = board.getValue(emptyCell.first, emptyCell.second);
+
+    // If we found a cell with a constrained domain
+    if (bestCell.first != -1) {
+        return bestCell;
     }
-    
-    // Restore the original board
-    board.loadBoard(currentBoard);
-    
-    // Return the hint as the cell coordinates
-    if (hintValue != 0) {
-        return emptyCell;
+
+    // Fallback to finding any empty cell
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            if (board.isEmpty(row, col)) {
+                return std::make_pair(row, col);
+            }
+        }
     }
-    
-    return std::make_pair(-1, -1); // No hint available
+
+    return std::make_pair(-1, -1); // No empty cells found
 }

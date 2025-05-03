@@ -10,7 +10,6 @@
 #include <utility>
 #include <random>
 #include <ctime>
-#include "data-structures/unorderedSet.cpp"
 
 class SudokuSolver {
 private:
@@ -37,6 +36,8 @@ public:
     
     // Constructor takes a reference to an existing SudokuBoard
     explicit SudokuSolver(SudokuBoard& sudokuBoard);
+
+    SudokuBoard& getBoard() const;
     
     // Solve the current board
     bool solve();

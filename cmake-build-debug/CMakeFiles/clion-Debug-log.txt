@@ -1,16 +1,16 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/yassien/CLionProjects/SudukoAPPLIED -B /Users/yassien/CLionProjects/SudukoAPPLIED/cmake-build-debug
--- The C compiler identification is AppleClang 16.0.0.16000026
--- The CXX compiler identification is AppleClang 16.0.0.16000026
+"D:\CLion 2024.3.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/CLion 2024.3.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S "D:\AUC\Spring 2025\ADS\SudukoAPPLIED" -B "D:\AUC\Spring 2025\ADS\SudukoAPPLIED\cmake-build-debug"
+-- The C compiler identification is GNU 13.1.0
+-- The CXX compiler identification is GNU 13.1.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
+-- Check for working C compiler: D:/CLion 2024.3.2/bin/mingw/bin/gcc.exe - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ - skipped
+-- Check for working CXX compiler: D:/CLion 2024.3.2/bin/mingw/bin/g++.exe - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done (2.7s)
+-- Configuring done (3.9s)
 -- Generating done (0.0s)
--- Build files have been written to: /Users/yassien/CLionProjects/SudukoAPPLIED/cmake-build-debug
+-- Build files have been written to: D:/AUC/Spring 2025/ADS/SudukoAPPLIED/cmake-build-debug

@@ -19,15 +19,26 @@ player::~player()
     }
 }
 
+
 bool player::checkwin()
 {
     if (board == nullptr) {
         return false;
     }
     
-    // Check if the board is valid using isValidBoard method seen in SudokuSolver
+    // First check if the board is completely filled
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            if (board->getValue(row, col) == 0) {
+                return false; // Empty cell found, puzzle not complete
+            }
+        }
+    }
+
+    // Then check if it's valid according to Sudoku rules
     return solver->isValidBoard();
 }
+
 
 void player::startgame(int difficulty)
 {
@@ -60,7 +71,7 @@ void player::startgame(int difficulty)
     
     // Get the board state and copy it
     int boardState[9][9];
-    solver->getBoard()->getBoardState(boardState);
+    solver->getBoard().getBoardState(boardState);
     board->loadBoard(boardState);
     
     // Store the initial board state
@@ -68,6 +79,10 @@ void player::startgame(int difficulty)
     
     // Initialize player move history
     playerMoves.clear();
+    moveCount = 0;
+    hintCount = 0;
+    startTime = std::chrono::steady_clock::now();
+
 }
 
 void player::restart()
@@ -81,28 +96,70 @@ void player::restart()
     }
 }
 
-void player::move(int row, int col, int value)
-{
+void player::move(int row, int col, int value) {
     if (board == nullptr) {
         return;
     }
-    
+
     // Check if cell is editable (not part of the original puzzle)
-    if (initialBoard.getValue(row, col) == 0) {
-        // Store the move for potential undo
-        Move newMove = {row, col, board->getValue(row, col), value};
-        playerMoves.push_back(newMove);
-        
-        // Update the board
-        board->insert(row, col, value);
+    if (isOriginalCell(row, col)) {
+        std::cout << "Cannot modify original cell at (" << row << ", " << col << ")." << std::endl;
+        return; // Can't modify original cells
     }
+
+    // Validate move according to Sudoku rules
+    unorderedSet domain = board->calculateDomain(row, col);
+    if (!domain.contains(value)) {
+        std::cout<< "Invalid move: " << value << " is not a valid option for cell (" << row << ", " << col << ")." << std::endl;
+        return; // Invalid move
+    }
+
+    // Store the move for potential undo
+    Move newMove = {row, col, board->getValue(row, col), value};
+    playerMoves.push_back(newMove);
+    std::cout<< "Move made: " << value << " at (" << row << ", " << col << ")." << std::endl;
+
+    // Update the board
+    board->insert(row, col, value);
+    moveCount++;
 }
+
+void player::incrementHintCount() {
+    hintCount++;
+}
+void player::endGame() {
+    endTime = std::chrono::steady_clock::now();
+}
+int player::getElapsedTime() const {
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime);
+    return static_cast<int>(duration.count());
+}
+// Update in player.cpp
+int player::getScore() const {
+    // Calculate time penalty (seconds elapsed)
+    auto now = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+        endTime.time_since_epoch() > startTime.time_since_epoch() ?
+        endTime - startTime : now - startTime);
+    int timePenalty = static_cast<int>(duration.count()) / 10; // 1 point per 10 seconds
+
+    // Base score calculation
+    int baseScore = 1000;
+    int movePenalty = moveCount * 5;      // 5 points per move
+    int hintPenalty = hintCount * 50;     // 50 points per hint
+
+    int score = baseScore - movePenalty - hintPenalty - timePenalty;
+    return std::max(score, 0); // Score can't go below 0
+}
+
+
 
 void player::undo()
 {
     if (!playerMoves.empty() && board != nullptr) {
         Move lastMove = playerMoves.back();
         playerMoves.pop_back();
+        moveCount--;
         
         // If previous value was 0, remove the value, otherwise insert the previous value
         if (lastMove.previousValue == 0) {
@@ -126,4 +183,25 @@ bool player::isOriginalCell(int row, int col) const
     
     // Original cells have non-zero values in the initial board
     return initialBoard.getValue(row, col) != 0;
+}
+
+// Implement in player.cpp
+std::pair<int, int> player::getHint() {
+    if (board == nullptr || solver == nullptr) {
+        return std::make_pair(-1, -1);
+    }
+
+    // Save current board state
+    int currentBoard[9][9];
+    board->getBoardState(currentBoard);
+
+    // Get hint from solver
+    std::pair<int, int> hintCell = solver->getHint();
+
+    // If no empty cells or unsolvable, return invalid hint
+    if (hintCell.first == -1) {
+        return std::make_pair(-1, -1);
+    }
+
+    return hintCell;
 }

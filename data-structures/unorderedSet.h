@@ -1,5 +1,5 @@
-#ifndef UNORDERED_SET_H
-#define UNORDERED_SET_H
+#ifndef UNORDEREDSET_H
+#define UNORDEREDSET_H
 
 class unorderedSet {
 private:

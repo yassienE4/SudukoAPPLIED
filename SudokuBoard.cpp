@@ -7,12 +7,14 @@ SudokuBoard::SudokuBoard() {
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
             board[row][col] = 0;
+            fixedCells[row][col] = false;
         }
     }
-    
+
     // Initialize the constraint graph
     initializeGraph();
 }
+
 
 // Initialize the constraint graph with all vertices and edges
 void SudokuBoard::initializeGraph() {
@@ -22,7 +24,7 @@ void SudokuBoard::initializeGraph() {
             constraintGraph.addVertex(row, col);
         }
     }
-    
+
     // Add all constraints as edges
     addConstraints();
 }
@@ -39,7 +41,7 @@ void SudokuBoard::addConstraints() {
             }
         }
     }
-    
+
     // Column constraints
     for (int col = 0; col < 9; col++) {
         for (int row = 0; row < 9; row++) {
@@ -50,7 +52,7 @@ void SudokuBoard::addConstraints() {
             }
         }
     }
-    
+
     // 3x3 box constraints
     for (int boxRow = 0; boxRow < 3; boxRow++) {
         for (int boxCol = 0; boxCol < 3; boxCol++) {
@@ -58,13 +60,13 @@ void SudokuBoard::addConstraints() {
                 for (int cellCol = 0; cellCol < 3; cellCol++) {
                     int row = boxRow * 3 + cellRow;
                     int col = boxCol * 3 + cellCol;
-                    
+
                     // Connect to all other cells in the same 3x3 box
                     for (int otherCellRow = 0; otherCellRow < 3; otherCellRow++) {
                         for (int otherCellCol = 0; otherCellCol < 3; otherCellCol++) {
                             int otherRow = boxRow * 3 + otherCellRow;
                             int otherCol = boxCol * 3 + otherCellCol;
-                            
+
                             if (row != otherRow || col != otherCol) {
                                 constraintGraph.addEdge(row, col, otherRow, otherCol);
                             }
@@ -94,26 +96,31 @@ bool SudokuBoard::insert(int row, int col, int value) {
     if (row < 0 || row >= 9 || col < 0 || col >= 9 || value < 1 || value > 9) {
         return false; // Invalid input
     }
-    
+
+    // Check if the value is in the domain of this cell
+    unorderedSet domain = calculateDomain(row, col);
+    if (!domain.contains(value)) {
+        return false; // Value not allowed in this cell
+    }
+
     // Set the value in the constraint graph
     bool result = constraintGraph.setValue(row, col, value);
-    
     if (result) {
         // Propagate constraints to neighbors
         propagateConstraints(row, col, value);
-        
         // Update the board array
         board[row][col] = value;
     }
-    
+
     return result;
 }
+
 
 // Propagate constraints after setting a value
 void SudokuBoard::propagateConstraints(int row, int col, int value) {
     // Get all neighbors of this cell
     CustomVector<CustomPair<int, int>> neighbors = constraintGraph.getNeighbors(row, col);
-    
+
     // Remove the value from the domains of all neighbors
     for (int i = 0; i < neighbors.size(); i++) {
         constraintGraph.removeFromDomain(neighbors[i].first, neighbors[i].second, value);
@@ -125,23 +132,23 @@ bool SudokuBoard::remove(int row, int col) {
     if (row < 0 || row >= 9 || col < 0 || col >= 9) {
         return false; // Invalid input
     }
-    
+
     // Reset the domain to all possible values
     unorderedSet fullDomain;
     for (int i = 1; i <= 9; i++) {
         fullDomain.insert(i);
     }
-    
+
     bool result = constraintGraph.setDomain(row, col, fullDomain);
-    
+
     if (result) {
         // Update the board array
         board[row][col] = 0;
-        
+
         // We need to recalculate the domains based on the current board state
         recalculateDomains();
     }
-    
+
     return result;
 }
 
@@ -159,7 +166,7 @@ void SudokuBoard::recalculateDomains() {
             }
         }
     }
-    
+
     // Then, propagate constraints from filled cells
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
@@ -180,7 +187,6 @@ int SudokuBoard::getValue(int row, int col) const {
 
 unorderedSet SudokuBoard::calculateDomain(int row, int col) const {
     unorderedSet domain;
-    
     // Start with full domain {1..9}
     for (int i = 1; i <= 9; i++) {
         domain.insert(i);
@@ -188,17 +194,15 @@ unorderedSet SudokuBoard::calculateDomain(int row, int col) const {
 
     // Remove values from the same row
     for (int c = 0; c < 9; c++) {
-        if (constraintGraph.isSingleValue(row, c) && c != col) {
-            int val = constraintGraph.getValue(row, c);
-            domain.remove(val);
+        if (board[row][c] != 0 && c != col) {
+            domain.remove(board[row][c]);
         }
     }
 
     // Remove values from the same column
     for (int r = 0; r < 9; r++) {
-        if (constraintGraph.isSingleValue(r, col) && r != row) {
-            int val = constraintGraph.getValue(r, col);
-            domain.remove(val);
+        if (board[r][col] != 0 && r != row) {
+            domain.remove(board[r][col]);
         }
     }
 
@@ -207,15 +211,15 @@ unorderedSet SudokuBoard::calculateDomain(int row, int col) const {
     int startCol = (col / 3) * 3;
     for (int r = startRow; r < startRow + 3; r++) {
         for (int c = startCol; c < startCol + 3; c++) {
-            if (constraintGraph.isSingleValue(r, c) && (r != row || c != col)) {
-                int val = constraintGraph.getValue(r, c);
-                domain.remove(val);
+            if (board[r][c] != 0 && (r != row || c != col)) {
+                domain.remove(board[r][c]);
             }
         }
     }
 
     return domain;
 }
+
 
 // Print the current state of the board
 void SudokuBoard::printBoard() const {
@@ -245,13 +249,16 @@ void SudokuBoard::loadBoard(const int inputBoard[9][9]) {
         for (int col = 0; col < 9; col++) {
             if (inputBoard[row][col] != 0) {
                 insert(row, col, inputBoard[row][col]);
+                fixedCells[row][col] = true;  // Mark as fixed
             } else {
                 // Make sure empty cells are properly reset
                 remove(row, col);
+                fixedCells[row][col] = false;
             }
         }
     }
 }
+
 
 // Get the graph for the solver to use
 const Graph& SudokuBoard::getGraph() const {
@@ -287,4 +294,13 @@ void SudokuBoard::clear() {
             remove(row, col);
         }
     }
+}
+
+// Check if a cell is fixed (part of the original puzzle)
+bool SudokuBoard::isFixedCell(int row, int col) const {
+    if (row < 0 || row >= 9 || col < 0 || col >= 9) {
+        return false; // Invalid position
+    }
+
+    return fixedCells[row][col];
 }
