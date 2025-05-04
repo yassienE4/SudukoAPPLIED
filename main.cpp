@@ -150,8 +150,7 @@ int main() {
     }
 
     if (input == "hint") {
-        //vary max hints based on difficulty
-        // Easy: 3 hints, Medium: 2 hints, Hard: 1 hint
+
 
         if (gamePlayer.getHintCount() >= maxHints) {
             cout << "No more hints available.\n";

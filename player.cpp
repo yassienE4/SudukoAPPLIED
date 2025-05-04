@@ -113,12 +113,12 @@ void player::move(int row, int col, int value) {
     // we will remove this for the gui so that the user can actually make mistakes
 
     unorderedSet domain = board->calculateDomain(row, col);
-    // if (!domain.contains(value)) {
-    //     std::cout<< "Invalid move: " << value << " is not a valid option for cell (" << row << ", " << col << ")." << std::endl;
-    //     moveCount++;
-    //
-    //     return; // Invalid move
-    // }
+    if (!domain.contains(value)) {
+        std::cout<< "Invalid move: " << value << " is not a valid option for cell (" << row << ", " << col << ")." << std::endl;
+        moveCount++;
+
+        return; // Invalid move
+    }
 
     // Store the move for potential undo
     Move newMove = {row, col, board->getValue(row, col), value};
