@@ -100,7 +100,7 @@ bool SudokuBoard::insert(int row, int col, int value) {
     // Check if the value is in the domain of this cell
     unorderedSet domain = calculateDomain(row, col);
     if (!domain.contains(value)) {
-        return false; // Value not allowed in this cell
+        // return false; // Value not allowed in this cell
     }
 
     // Set the value in the constraint graph

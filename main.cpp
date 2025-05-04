@@ -84,83 +84,136 @@ int main() {
         sudoku.printBoard();
     }
     else if (choice == 1) {
-        // In main.cpp, inside the game loop
+        //ask for difficulty level
+        int difficulty = 1;
+        cout << "Select difficulty level (1: Easy, 2: Medium, 3: Hard): ";
+        cin >> difficulty;
+        if (difficulty < 1 || difficulty > 3) {
+            cout << "Invalid difficulty level. Exiting.\n";
+            return 1;
+        }
         player gamePlayer;
-        gamePlayer.startgame(1); // Start with Easy difficulty
+        gamePlayer.startgame(difficulty); // Start with Easy difficulty
         SudokuBoard* sudoku = gamePlayer.getBoard();
         sudoku->printBoard();
 
-        // std::atomic<bool> timerRunning(true);
-        // std::thread timerThread(startTimer, std::ref(timerRunning));
 
         int row, col, val;
         std::string input;
 
         while (true) {
-            // Display score alongside the prompt
-            if (gamePlayer.getScore() <= 0) {
-                cout << "Game Over! Your score is Zero.\n";
-                break;
+            // Calculate elapsed time up to now
+            int elapsed = gamePlayer.getElapsedTime();
+            int mins = elapsed / 60;
+            int secs = elapsed % 60;
+
+            // Set max hints based on difficulty
+            int maxHints;
+            switch (gamePlayer.getDifficulty()) {
+                case 1: maxHints = 10; break; // Easy
+                case 2: maxHints = 5; break;  // Medium
+                case 3: maxHints = 3; break;  // Hard
+                default: maxHints = 0; break;
             }
-            cout << "\nScore: " << gamePlayer.getScore() << " | Enter move (row col value), 'hint', or 'exit': ";
+
+            // Display all info in a single prompt line
+            cout << "\rTime: " << mins << ":" << (secs < 10 ? "0" : "") << secs
+                 << " | Score: " << gamePlayer.getScore()
+                 << " | Moves: " << gamePlayer.getMoveCount()
+                 << " | Hints: " << gamePlayer.getHintCount() << "/" << maxHints
+                 << " | Enter move (row col value), 'hint', 'remove', 'undo', or 'exit': " << flush;
+
             cin >> input;
 
-            if (input == "exit") break;
+    if (input == "exit") {
+        gamePlayer.endGame();
+        break;
+    }
 
-            // In main.cpp, update the hint display section
-            if (input == "hint") {
-                // Get a hint from the solver
-                std::pair<int, int> hintCell = gamePlayer.getHint();
-                if (hintCell.first != -1) {
-                    unorderedSet domain = sudoku->calculateDomain(hintCell.first, hintCell.second);
-                    cout << "Hint: Look at position (" << hintCell.first << ", " << hintCell.second << ")\n";
-                    cout << "Possible values: ";
-                    for (auto it = domain.begin(); it != domain.end(); ++it) {
-                        cout << *it << " ";
-                    }
-                    cout << "\n";
-                    gamePlayer.incrementHintCount(); // Reduce score for using hint
-                } else {
-                    cout << "No hint available.\n";
-                }
-                continue;
-            }
-
-
-            // Parse regular move input
-            try {
-                row = std::stoi(input);
-                cin >> col >> val;
-
-                if (gamePlayer.isOriginalCell(row, col)) {
-                    cout << "Cannot change a fixed cell.\n";
-                    continue;
-                }
-
-                if (val < 1 || val > 9 || row < 0 || row > 8 || col < 0 || col > 8) {
-                    cout << "Invalid input. Try again.\n";
-                    continue;
-                }
-
-                gamePlayer.move(row, col, val);
-                // cout << "Move accepted.\n";
-
-                // Check for win after each move
-                if (gamePlayer.checkwin()) {
-                    cout << "\nCongratulations! You solved the puzzle!\n";
-                    cout << "Final Score: " << gamePlayer.getScore() << "\n";
-                    break;
-                }
-            } catch (std::invalid_argument&) {
-                cout << "Invalid input. Try again.\n";
-            }
-
-            sudoku->printBoard();
+    if (input == "undo") {
+        gamePlayer.undo();
+        sudoku->printBoard();
+        continue;
+    }
+    if (input == "remove") {
+        int remRow, remCol;
+        cout << "Enter row and column to remove value (0-based): ";
+        cin >> remRow >> remCol;
+        if (gamePlayer.isOriginalCell(remRow, remCol)) {
+            cout << "Cannot remove value from a fixed/original cell.\n";
+        } else {
+            gamePlayer.remove(remRow, remCol);
+            cout << "Value removed from (" << remRow << ", " << remCol << ").\n";
         }
+        sudoku->printBoard();
+        continue;
+    }
+
+    if (input == "hint") {
+        //vary max hints based on difficulty
+        // Easy: 3 hints, Medium: 2 hints, Hard: 1 hint
+
+        if (gamePlayer.getHintCount() >= maxHints) {
+            cout << "No more hints available.\n";
+            continue;
+        }
+        std::pair<int, int> hintCell = gamePlayer.getHint();
+        if (hintCell.first != -1 ) {
+            unorderedSet domain = sudoku->calculateDomain(hintCell.first, hintCell.second);
+            cout << "Hint: Look at position (" << hintCell.first << ", " << hintCell.second << ")\n";
+            cout << "Possible values: ";
+            for (auto it = domain.begin(); it != domain.end(); ++it) {
+                cout << *it << " ";
+            }
+            cout << "\n";
+            gamePlayer.incrementHintCount();
+        } else {
+            cout << "No hint available.\n";
+        }
+        continue;
+    }
+
+    // Parse regular move input
+    try {
+        row = std::stoi(input);
+        cin >> col >> val;
+
+        if (gamePlayer.isOriginalCell(row, col)) {
+            cout << "Cannot change a fixed cell.\n";
+            continue;
+        }
+
+        if (val < 1 || val > 9 || row < 0 || row > 8 || col < 0 || col > 8) {
+            cout << "Invalid input. Try again.\n";
+            continue;
+        }
+
+        gamePlayer.move(row, col, val);
+
+        // Check for win after each move
+        if (gamePlayer.checkwin()) {
+            cout << "\nCongratulations! You solved the puzzle!\n";
+            gamePlayer.endGame();
+            break;
+        }
+    } catch (std::invalid_argument&) {
+        cout << "Invalid input. Try again.\n";
+    }
+
+    sudoku->printBoard();
+}
+
 
         // timerRunning = false;
         // timerThread.join();
         cout << "\nGame over. Thanks for playing!\n";
+        cout << "Final Score: " << gamePlayer.getScore() << endl;
+        cout << "Total Moves: " << gamePlayer.getMoveCount() << endl;
+        cout << "Hints Used: " << gamePlayer.getHintCount() << endl;
+        int elapsed = gamePlayer.getElapsedTime();
+        int mins = elapsed / 60;
+        int secs = elapsed % 60;
+        cout << "Time Elapsed: " << mins << ":" << (secs < 10 ? "0" : "") << secs << endl;
 
     }
     else {

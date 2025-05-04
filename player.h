@@ -26,6 +26,11 @@ public:
     void startgame(int difficulty); // Uses SudokuSolver's difficulty system
     void restart();
     bool checkwin();
+    void setDifficulty(int difficulty);
+    int getDifficulty() const;
+    int getMoveCount() const;
+    int getHintCount() const;
+    void remove(int row, int col);
     int getScore() const;
     void incrementHintCount();
     void endGame();  // to stop the timer
@@ -49,6 +54,7 @@ private:
     std::vector<Move> playerMoves; // Tracks moves for undo functionality
     int moveCount = 0;
     int hintCount = 0;
+    int currentDifficulty = 1;
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point endTime;
 

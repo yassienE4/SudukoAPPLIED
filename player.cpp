@@ -65,6 +65,8 @@ void player::startgame(int difficulty)
         default:
             diff = SudokuSolver::MEDIUM;
     }
+    currentDifficulty = difficulty;
+
     
     // Generate a puzzle with the specified difficulty
     solver->generatePuzzle(diff);
@@ -108,11 +110,15 @@ void player::move(int row, int col, int value) {
     }
 
     // Validate move according to Sudoku rules
+    // we will remove this for the gui so that the user can actually make mistakes
+
     unorderedSet domain = board->calculateDomain(row, col);
-    if (!domain.contains(value)) {
-        std::cout<< "Invalid move: " << value << " is not a valid option for cell (" << row << ", " << col << ")." << std::endl;
-        return; // Invalid move
-    }
+    // if (!domain.contains(value)) {
+    //     std::cout<< "Invalid move: " << value << " is not a valid option for cell (" << row << ", " << col << ")." << std::endl;
+    //     moveCount++;
+    //
+    //     return; // Invalid move
+    // }
 
     // Store the move for potential undo
     Move newMove = {row, col, board->getValue(row, col), value};
@@ -131,9 +137,14 @@ void player::endGame() {
     endTime = std::chrono::steady_clock::now();
 }
 int player::getElapsedTime() const {
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime);
+    auto now = std::chrono::steady_clock::now();
+    // If endTime is after startTime, use endTime (game over); otherwise, use now (game running)
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+        (endTime > startTime ? endTime : now) - startTime
+    );
     return static_cast<int>(duration.count());
 }
+
 // Update in player.cpp
 int player::getScore() const {
     // Calculate time penalty (seconds elapsed)
@@ -142,15 +153,40 @@ int player::getScore() const {
         endTime.time_since_epoch() > startTime.time_since_epoch() ?
         endTime - startTime : now - startTime);
     int timePenalty = static_cast<int>(duration.count()) / 10; // 1 point per 10 seconds
-
-    // Base score calculation
-    int baseScore = 1000;
     int movePenalty = moveCount * 5;      // 5 points per move
     int hintPenalty = hintCount * 50;     // 50 points per hint
+
+    // Set base score by difficulty
+    int baseScore;
+    switch (currentDifficulty) {
+        case 1: // Easy
+            baseScore = 2000;
+            timePenalty = static_cast<int>(duration.count()) / 10; // 1 point per 10 seconds
+            movePenalty = moveCount * 2;      // 2 points per move
+            hintPenalty = hintCount * 20;     // 20 points per hint
+        break;
+        case 2: // Medium
+            baseScore = 1500;
+            timePenalty = static_cast<int>(duration.count()) / 10; // 1 point per 10 seconds
+            movePenalty = moveCount * 3;      // 3 points per move
+            hintPenalty = hintCount * 50;     // 50 points per hint
+        break;
+        case 3: // Hard
+            baseScore = 1000;
+            timePenalty = static_cast<int>(duration.count()) / 5; // 1 point per 5 seconds
+            movePenalty = moveCount * 5;      // 5 points per move
+            hintPenalty = hintCount * 100;     // 100 points per hint
+        break;
+        default:
+            baseScore = 2000;
+    }
+
+
 
     int score = baseScore - movePenalty - hintPenalty - timePenalty;
     return std::max(score, 0); // Score can't go below 0
 }
+
 
 
 
@@ -159,7 +195,7 @@ void player::undo()
     if (!playerMoves.empty() && board != nullptr) {
         Move lastMove = playerMoves.back();
         playerMoves.pop_back();
-        moveCount--;
+        moveCount++;
         
         // If previous value was 0, remove the value, otherwise insert the previous value
         if (lastMove.previousValue == 0) {
@@ -185,23 +221,82 @@ bool player::isOriginalCell(int row, int col) const
     return initialBoard.getValue(row, col) != 0;
 }
 
-// Implement in player.cpp
 std::pair<int, int> player::getHint() {
-    if (board == nullptr || solver == nullptr) {
+    if (board == nullptr) {
         return std::make_pair(-1, -1);
     }
 
-    // Save current board state
-    int currentBoard[9][9];
-    board->getBoardState(currentBoard);
+    int minDomainSize = 10; // More than maximum possible (9)
+    std::pair<int, int> bestCell(-1, -1);
 
-    // Get hint from solver
-    std::pair<int, int> hintCell = solver->getHint();
+    // Search for the empty cell with the smallest domain
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            if (board->isEmpty(row, col)) {
+                unorderedSet domain = board->calculateDomain(row, col);
+                int domainSize = domain.size();
 
-    // If no empty cells or unsolvable, return invalid hint
-    if (hintCell.first == -1) {
-        return std::make_pair(-1, -1);
+                // If we find a cell with domain size 1, that's an immediate hint
+                if (domainSize == 1) {
+                    return std::make_pair(row, col);
+                }
+
+                // Otherwise keep track of the cell with smallest domain
+                if (domainSize < minDomainSize && domainSize > 0) {
+                    minDomainSize = domainSize;
+                    bestCell = std::make_pair(row, col);
+                }
+            }
+        }
     }
 
-    return hintCell;
+    // If we found a cell with a constrained domain
+    if (bestCell.first != -1) {
+        return bestCell;
+    }
+
+    // Fallback to finding any empty cell
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            if (board->isEmpty(row, col)) {
+                return std::make_pair(row, col);
+            }
+        }
+    }
+
+    // No empty cells found
+    return std::make_pair(-1, -1);
+}
+
+
+void player::setDifficulty(int difficulty) {
+    currentDifficulty = difficulty;
+}
+int player::getDifficulty() const {
+    return currentDifficulty;
+}
+
+int player::getMoveCount() const {
+    return moveCount;
+}
+int player::getHintCount() const {
+    return hintCount;
+}
+
+void player::remove(int row, int col) {
+    if (board == nullptr) return;
+    if (isOriginalCell(row, col)) {
+        std::cout << "Cannot remove value from a fixed/original cell.\n";
+        return;
+    }
+    int prevValue = board->getValue(row, col);
+    if (prevValue == 0) {
+        std::cout << "Cell (" << row << ", " << col << ") is already empty.\n";
+        return;
+    }
+    // Optionally store for redo/undo
+    Move newMove = {row, col, prevValue, 0};
+    playerMoves.push_back(newMove);
+    board->remove(row, col);
+    moveCount++;
 }
