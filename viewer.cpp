@@ -61,7 +61,7 @@ void viewer::gethintpress()
         labellist[hintCell.first][hintCell.second]->setStyleSheet("background-color: green;");
         gamePlayer.incrementHintCount();
         int hintsleft = gamePlayer.getHintCount();
-        gethint->setText("Get a Hint ("+QString::number(hintsleft)+"/"+QString::number(maxHints)+" Left)");
+        gethint->setText("Get a Hint ("+QString::number(hintsleft)+"/"+QString::number(maxHints)+" Used)");
     }
 }
 
@@ -169,9 +169,9 @@ void viewer::initUI()
 
     gethint = new QPushButton();
     QString mh = QString::number(maxHints);
-    gethint->setText("Get a Hint (0/"+mh+" Left)");
-    gethint->move(100,0);
-    gethint->setFixedSize(135,40);
+    gethint->setText("Get a Hint (0/"+mh+" Used)");
+    gethint->move(92,0);
+    gethint->setFixedSize(150,40);
     gethint->setParent(this);
     connect(gethint, &QPushButton::clicked, this, &viewer::gethintpress);
 
