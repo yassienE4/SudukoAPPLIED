@@ -7,9 +7,9 @@
 viewer::viewer(int d, QWidget *parent) :
     QMainWindow(parent)
 {
+    setdifficulity(d);
     initUI();
     this->setFixedSize(350,350);
-    setdifficulity(d);
 
 
     //game
@@ -69,7 +69,8 @@ void viewer::gethintpress()
 
 void viewer::backpress()
 {
-
+    this->hide();
+    this->parentWidget()->show();
 }
 
 void viewer::savemove()
@@ -170,7 +171,7 @@ void viewer::initUI()
 
     gethint = new QPushButton();
     QString mh = QString::number(maxHints);
-    gethint->setText("Get a Hint ("+mh+"/"+mh+" Left)");
+    gethint->setText("Get a Hint (0/"+mh+" Left)");
     gethint->move(100,0);
     gethint->setFixedSize(135,40);
     gethint->setParent(this);

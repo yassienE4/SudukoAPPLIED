@@ -16,7 +16,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_EasyButton_clicked()
 {
-    v = new viewer(1);
+    v = new viewer(1,this);
     this->hide();
     v->show();
 }
@@ -24,7 +24,7 @@ void MainWindow::on_EasyButton_clicked()
 
 void MainWindow::on_MediumButton_clicked()
 {
-    v = new viewer(2);
+    v = new viewer(2,this);
     this->hide();
     v->show();
 }
@@ -32,7 +32,7 @@ void MainWindow::on_MediumButton_clicked()
 
 void MainWindow::on_HardButton_clicked()
 {
-    v = new viewer(3);
+    v = new viewer(3,this);
     this->hide();
     v->show();
 }
