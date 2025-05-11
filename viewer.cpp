@@ -45,7 +45,26 @@ void viewer::update()
 
 void viewer::gethintpress()
 {
+    if (gamePlayer.getHintCount() >= maxHints)
+    {
+        gethint->setDisabled(true);
+    }
 
+    pair<int, int> hintCell = gamePlayer.getHint();
+    if (hintCell.first != -1 )
+    {
+        unorderedSet domain = gamePlayer.getBoard()->calculateDomain(hintCell.first, hintCell.second);
+        int value;
+        for (int b : domain) {
+            value = b;
+        }
+
+        labellist[hintCell.first][hintCell.second]->setText( QString::number(value));
+        labellist[hintCell.first][hintCell.second]->setStyleSheet("background-color: green;");
+        gamePlayer.incrementHintCount();
+        int hintsleft = gamePlayer.getHintCount();
+        gethint->setText("Get a Hint ("+QString::number(hintsleft)+"/"+QString::number(maxHints)+" Left)");
+    }
 }
 
 void viewer::backpress()
@@ -119,6 +138,12 @@ void viewer::loadboard()
 void viewer::setdifficulity(int x)
 {
     diff = x;
+    switch (diff) {
+    case 1: maxHints = 10; break; // Easy
+    case 2: maxHints = 5; break;  // Medium
+    case 3: maxHints = 3; break;  // Hard
+    default: maxHints = 0; break;
+    }
 }
 
 void viewer::initUI()
@@ -144,7 +169,8 @@ void viewer::initUI()
     }
 
     gethint = new QPushButton();
-    gethint->setText("Get a Hint (3/3 Left)");
+    QString mh = QString::number(maxHints);
+    gethint->setText("Get a Hint ("+mh+"/"+mh+" Left)");
     gethint->move(100,0);
     gethint->setFixedSize(135,40);
     gethint->setParent(this);

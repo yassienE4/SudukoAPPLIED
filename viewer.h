@@ -28,6 +28,7 @@ public:
     QTimer *timer;
     void update();
 
+    int maxHints =0;
     // ui functions
 
     void gethintpress();
