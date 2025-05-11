@@ -41,10 +41,7 @@ void viewer::update()
     time->setText(QString::fromStdString(t));
 }
 
-void viewer::submitpress()
-{
 
-}
 
 void viewer::gethintpress()
 {
@@ -146,26 +143,19 @@ void viewer::initUI()
         }
     }
 
-    submitmoves = new QPushButton();
-    submitmoves->setText("Submit Moves");
-    submitmoves->move(25,0);
-    submitmoves->setFixedSize(135,40);
-    submitmoves->setParent(this);
-    connect(submitmoves, &QPushButton::clicked, this, &viewer::submitpress);
-
     gethint = new QPushButton();
     gethint->setText("Get a Hint (3/3 Left)");
-    gethint->move(190,0);
+    gethint->move(100,0);
     gethint->setFixedSize(135,40);
     gethint->setParent(this);
-    connect(submitmoves, &QPushButton::clicked, this, &viewer::gethintpress);
+    connect(gethint, &QPushButton::clicked, this, &viewer::gethintpress);
 
     back = new QPushButton();
     back->setText("Go Back");
     back->move(225,300);
     back->setFixedSize(100,40);
     back->setParent(this);
-    connect(submitmoves, &QPushButton::clicked, this, &viewer::backpress);
+    connect(back, &QPushButton::clicked, this, &viewer::backpress);
 
     time = new QLabel();
     time->setText("Time");

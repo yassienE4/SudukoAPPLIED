@@ -29,7 +29,7 @@ public:
     void update();
 
     // ui functions
-    void submitpress();
+
     void gethintpress();
     void backpress();
 
@@ -38,7 +38,7 @@ public:
     void initUI();
     // ui elements
     vector<vector<QLineEdit*>> labellist;
-    QPushButton *submitmoves;
+
     QPushButton *gethint;
 
     QLabel* time;
