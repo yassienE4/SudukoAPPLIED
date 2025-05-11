@@ -14,14 +14,16 @@ SOURCES += \
     player.cpp \
     SudokuBoard.cpp \
     SudokuSolver.cpp \
-    $$files(data-structures/*.cpp)
+    $$files(data-structures/*.cpp) \
+    viewer.cpp
 
 HEADERS += \
     mainwindow.h \
     player.h \
     sudokuboard.h \
     SudokuSolver.h \
-    $$files(data-structures/*.h)
+    $$files(data-structures/*.h) \
+    viewer.h
 
 FORMS += \
     mainwindow.ui
@@ -30,3 +32,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc

@@ -4,6 +4,9 @@
 #include <atomic>
 #include <future>
 #include <player.h>
+#include <viewer.h>
+#include <QApplication>
+#include <mainwindow.h>
 
 #include "sudokuBoard.h"
 #include "data-structures/unorderedSet.h"
@@ -29,125 +32,14 @@ void startTimer(std::atomic<bool>& running) {
     std::cout << "\rTime Elapsed: --:--           \n";
 }
 
-int main() {
-    SudokuBoard sudoku;
+int main(int argc, char *argv[]) {
 
-    int exampleBoard[9][9] = {
-        {5, 3, 0, 0, 7, 0, 0, 0, 0},
-        {6, 0, 0, 1, 9, 5, 0, 0, 0},
-        {0, 9, 8, 0, 0, 0, 0, 6, 0},
-        {8, 0, 0, 0, 6, 0, 0, 0, 3},
-        {4, 0, 0, 8, 0, 3, 0, 0, 1},
-        {7, 0, 0, 0, 2, 0, 0, 0, 6},
-        {0, 6, 0, 0, 0, 0, 2, 8, 0},
-        {0, 0, 0, 4, 1, 9, 0, 0, 5},
-        {0, 0, 0, 0, 8, 0, 0, 7, 9}
-    };
-
-    cout << "Choose mode:\n1. Play Sudoku\n2. Run Example\nChoice: ";
-    int choice;
-    cin >> choice;
-
-    if (choice == 2) {
-        sudoku.loadBoard(exampleBoard);
-        cout << "Initial Sudoku Board:\n";
-        sudoku.printBoard();
-
-        int testRow = 0, testCol = 2, testValue = 4;
-        cout << "\nInserting value " << testValue << " at (" << testRow << ", " << testCol << ")\n";
-        if (sudoku.insert(testRow, testCol, testValue)) {
-            cout << "Inserted successfully.\n";
-        } else {
-            cout << "Failed to insert value.\n";
-        }
-
-        cout << "\nBoard after insertion:\n";
-        sudoku.printBoard();
-
-        int queryRow = 0, queryCol = 2;
-        cout << "\nDomain of (" << queryRow << ", " << queryCol << "): ";
-        unorderedSet domain = sudoku.calculateDomain(queryRow, queryCol);
-        for (auto it = domain.begin(); it != domain.end(); ++it)
-            cout << *it << " ";
-        cout << "\n";
-
-        cout << "\nRemoving value at (" << testRow << ", " << testCol << ")\n";
-        sudoku.remove(testRow, testCol);
-        sudoku.printBoard();
-
-        cout << "\nClearing board...\n";
-        sudoku.clear();
-        sudoku.printBoard();
-
-        cout << "\nReloading original board...\n";
-        sudoku.loadBoard(exampleBoard);
-        sudoku.printBoard();
-    }
-    else if (choice == 1) {
-        //ask for difficulty level
-        int difficulty = 1;
-        cout << "Select difficulty level (1: Easy, 2: Medium, 3: Hard): ";
-        cin >> difficulty;
-        if (difficulty < 1 || difficulty > 3) {
-            cout << "Invalid difficulty level. Exiting.\n";
-            return 1;
-        }
-        player gamePlayer;
-        gamePlayer.startgame(difficulty); // Start with Easy difficulty
-        SudokuBoard* sudoku = gamePlayer.getBoard();
-        sudoku->printBoard();
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
 
-        int row, col, val;
-        std::string input;
-
-        while (true) {
-            // Calculate elapsed time up to now
-            int elapsed = gamePlayer.getElapsedTime();
-            int mins = elapsed / 60;
-            int secs = elapsed % 60;
-
-            // Set max hints based on difficulty
-            int maxHints;
-            switch (gamePlayer.getDifficulty()) {
-                case 1: maxHints = 10; break; // Easy
-                case 2: maxHints = 5; break;  // Medium
-                case 3: maxHints = 3; break;  // Hard
-                default: maxHints = 0; break;
-            }
-
-            // Display all info in a single prompt line
-            cout << "\rTime: " << mins << ":" << (secs < 10 ? "0" : "") << secs
-                 << " | Score: " << gamePlayer.getScore()
-                 << " | Moves: " << gamePlayer.getMoveCount()
-                 << " | Hints: " << gamePlayer.getHintCount() << "/" << maxHints
-                 << " | Enter move (row col value), 'hint', 'remove', 'undo', or 'exit': " << flush;
-
-            cin >> input;
-
-    if (input == "exit") {
-        gamePlayer.endGame();
-        break;
-    }
-
-    if (input == "undo") {
-        gamePlayer.undo();
-        sudoku->printBoard();
-        continue;
-    }
-    if (input == "remove") {
-        int remRow, remCol;
-        cout << "Enter row and column to remove value (0-based): ";
-        cin >> remRow >> remCol;
-        if (gamePlayer.isOriginalCell(remRow, remCol)) {
-            cout << "Cannot remove value from a fixed/original cell.\n";
-        } else {
-            gamePlayer.remove(remRow, remCol);
-            cout << "Value removed from (" << remRow << ", " << remCol << ").\n";
-        }
-        sudoku->printBoard();
-        continue;
-    }
+    /*
 
     if (input == "hint") {
 
@@ -217,7 +109,7 @@ int main() {
     }
     else {
         cout << "Invalid choice. Exiting.\n";
-    }
+    }*/
 
-    return 0;
+    return a.exec();
 }

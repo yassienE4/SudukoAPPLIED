@@ -7,7 +7,7 @@
 class SudokuBoard {
 private:
     Graph constraintGraph;
-    int board[9][9]; // For easy access to the current state
+
     bool fixedCells[9][9]; // To mark fixed (initial) cells
 
     // Initialize the constraint graph with all vertices and edges
@@ -21,7 +21,7 @@ private:
 
 public:
     SudokuBoard();
-
+    int board[9][9]; // For easy access to the current state
     // Insert a value into the board
     bool insert(int row, int col, int value);
 
