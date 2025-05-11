@@ -21,6 +21,8 @@ public:
     void setdifficulity(int x);
     int diff;
     void loadboard();
+    void savemove();
+    vector<pair<int,int>> positions;
 
     //update
     QTimer *timer;
@@ -30,6 +32,8 @@ public:
     void submitpress();
     void gethintpress();
     void backpress();
+
+    void showWinnerPopup();
 
     void initUI();
     // ui elements

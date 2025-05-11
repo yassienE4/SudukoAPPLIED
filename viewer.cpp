@@ -1,5 +1,7 @@
 #include "viewer.h"
-#include <QGraphicsPixmapItem>;
+#include <QGraphicsPixmapItem>
+#include <QDialog>
+#include <QVBoxLayout>
 
 viewer::viewer(int d, QWidget *parent) :
     QMainWindow(parent)
@@ -17,7 +19,7 @@ viewer::viewer(int d, QWidget *parent) :
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &viewer::update);
-    timer->start(16);
+    timer->start(1000);
 
 
 }
@@ -29,14 +31,82 @@ viewer::~viewer()
 
 void viewer::update()
 {
-
+    savemove();
     score->setText(QString::fromStdString(to_string(gamePlayer.getScore())));
-
     int elapsed = gamePlayer.getElapsedTime();
     int mins = elapsed / 60;
     int secs = elapsed % 60;
     string t = to_string(mins) + ":" + to_string(secs);
     time->setText(QString::fromStdString(t));
+}
+
+void viewer::submitpress()
+{
+
+}
+
+void viewer::gethintpress()
+{
+
+}
+
+void viewer::backpress()
+{
+
+}
+
+void viewer::savemove()
+{
+    static int won = 1;
+    for(auto pos : positions)
+    {
+        if(labellist[pos.first][pos.second]->text() != "0" && labellist[pos.first][pos.second]->text() != "")
+        {
+            int val = labellist[pos.first][pos.second]->text().toInt();
+            if (val < 1 || val > 9)
+            {
+                labellist[pos.first][pos.second]->setText("0");
+            }
+            else
+            {
+                gamePlayer.move(pos.first, pos.second, val);
+                if(gamePlayer.checkwin())
+                {
+                    if(won == 1)
+                    {
+                        showWinnerPopup();
+                        won++;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+void viewer::loadboard()
+{
+    for(int i = 0; i < 9; i++)
+    {
+        for(int j = 0; j < 9; j++)
+        {
+            int cell = gamePlayer.getBoard()->board[i][j];
+            if(cell != 0)
+            {
+                labellist[i][j]->setText(QString::fromStdString(to_string(cell)));
+                labellist[i][j]->setDisabled(true);
+            }
+            else
+            {
+                positions.push_back(make_pair(i,j));
+            }
+        }
+    }
+}
+
+void viewer::setdifficulity(int x)
+{
+    diff = x;
 }
 
 void viewer::initUI()
@@ -95,40 +165,24 @@ void viewer::initUI()
     score->setParent(this);
 }
 
-void viewer::submitpress()
+void viewer::showWinnerPopup()
 {
 
-}
+    QString winstring = "You Won!";
+    QDialog popup(this);
+    popup.setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    popup.setFixedSize(100, 100);
 
-void viewer::gethintpress()
-{
+    QVBoxLayout layout(&popup);
+    QLabel label(winstring, &popup);
+    label.setAlignment(Qt::AlignCenter);
 
-}
+    QPushButton closeButton("Close", &popup);
+    connect(&closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
 
-void viewer::backpress()
-{
+    layout.addWidget(&label);
+    layout.addWidget(&closeButton);
+    layout.setAlignment(Qt::AlignCenter);
 
-}
-
-void viewer::loadboard()
-{
-    for(int i = 0; i < 9; i++)
-    {
-        for(int j = 0; j < 9; j++)
-        {
-            int cell = gamePlayer.getBoard()->board[i][j];
-            if(cell != 0)
-            {
-                labellist[i][j]->setText(QString::fromStdString(to_string(cell)));
-                labellist[i][j]->setDisabled(true);
-            }
-
-
-        }
-    }
-}
-
-void viewer::setdifficulity(int x)
-{
-    diff = x;
+    popup.exec(); // Modal dialog (use popup.show() for non-modal)
 }
