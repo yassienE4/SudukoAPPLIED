@@ -47,7 +47,6 @@ public:
     QPushButton *back;
 
     // game functions
-    SudokuBoard sudoku;
     player gamePlayer;
 
 };

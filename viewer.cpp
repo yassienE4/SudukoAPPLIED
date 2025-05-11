@@ -14,14 +14,12 @@ viewer::viewer(int d, QWidget *parent) :
 
     //game
     gamePlayer.startgame(diff);
-    SudokuBoard* sudoku = gamePlayer.getBoard();
     loadboard();
 
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &viewer::update);
-    timer->start(1000);
-
+    timer->start(500);
 
 }
 
