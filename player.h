@@ -46,13 +46,13 @@ public:
     // Board information
     SudokuBoard* getBoard() const;
     bool isOriginalCell(int row, int col) const;
-    
+    int moveCount = 0;
 private:
     SudokuSolver* solver;
     SudokuBoard* board;
     SudokuBoard initialBoard; // Stores the initial state of the board
     std::vector<Move> playerMoves; // Tracks moves for undo functionality
-    int moveCount = 0;
+
     int hintCount = 0;
     int currentDifficulty = 1;
     std::chrono::steady_clock::time_point startTime;

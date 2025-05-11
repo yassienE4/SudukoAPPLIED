@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <QVBoxLayout>
 
+
 viewer::viewer(int d, QWidget *parent) :
     QMainWindow(parent)
 {
@@ -69,7 +70,21 @@ void viewer::savemove()
             }
             else
             {
-                gamePlayer.move(pos.first, pos.second, val);
+                int cell = gamePlayer.getBoard()->board[pos.first][pos.second];
+                if(val != cell)
+                {
+                    unorderedSet domain = gamePlayer.getBoard()->calculateDomain(pos.first, pos.second);
+                    if (!domain.contains(val))
+                    {
+                        labellist[pos.first][pos.second]->setText("0");
+                        gamePlayer.moveCount++;
+                    }
+                    else
+                    {
+                        gamePlayer.move(pos.first, pos.second, val);
+                    }
+
+                }
                 if(gamePlayer.checkwin())
                 {
                     if(won == 1)

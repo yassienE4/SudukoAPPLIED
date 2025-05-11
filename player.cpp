@@ -115,7 +115,7 @@ void player::move(int row, int col, int value) {
     unorderedSet domain = board->calculateDomain(row, col);
     if (!domain.contains(value)) {
         std::cout<< "Invalid move: " << value << " is not a valid option for cell (" << row << ", " << col << ")." << std::endl;
-        moveCount++;
+        //moveCount++;
 
         return; // Invalid move
     }
