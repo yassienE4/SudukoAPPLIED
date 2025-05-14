@@ -34,7 +34,7 @@ public:
     void gethintpress();
     void backpress();
 
-    void showWinnerPopup();
+    void showWinnerPopup(bool x);
 
     void initUI();
     // ui elements

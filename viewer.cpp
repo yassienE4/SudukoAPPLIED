@@ -30,6 +30,13 @@ viewer::~viewer()
 
 void viewer::update()
 {
+    if(gamePlayer.getScore() == 0)
+    {
+        gamePlayer.endGame();
+        showWinnerPopup(0);
+    }
+    else
+    {
     savemove();
     score->setText(QString::fromStdString(to_string(gamePlayer.getScore())));
     int elapsed = gamePlayer.getElapsedTime();
@@ -37,6 +44,7 @@ void viewer::update()
     int secs = elapsed % 60;
     string t = to_string(mins) + ":" + to_string(secs);
     time->setText(QString::fromStdString(t));
+    }
 }
 
 
@@ -104,8 +112,9 @@ void viewer::savemove()
                 {
                     if(won == 1)
                     {
-                        showWinnerPopup();
+                        showWinnerPopup(1);
                         won++;
+                        gamePlayer.endGame();
                     }
                 }
             }
@@ -138,7 +147,7 @@ void viewer::setdifficulity(int x)
 {
     diff = x;
     switch (diff) {
-    case 1: maxHints = 10; break; // Easy
+    case 1: maxHints = 200; break; // Easy
     case 2: maxHints = 5; break;  // Medium
     case 3: maxHints = 3; break;  // Hard
     default: maxHints = 0; break;
@@ -195,10 +204,13 @@ void viewer::initUI()
     score->setParent(this);
 }
 
-void viewer::showWinnerPopup()
+void viewer::showWinnerPopup(bool x)
 {
-
-    QString winstring = "You Won!";
+    QString winstring;
+    if(x)
+        winstring = "You Won!";
+    else
+        winstring = "You Lost!";
     QDialog popup(this);
     popup.setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     popup.setFixedSize(100, 100);
