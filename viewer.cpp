@@ -26,13 +26,28 @@ viewer::viewer(int d, QWidget *parent) :
 viewer::~viewer()
 {
 
+    for(int i = 0; i< labellist.size(); i++)
+    {
+        for(int j =0; j< labellist[i].size(); j++)
+        {
+            delete labellist[i][j];
+        }
+    }
+    delete timer;
+    delete gethint;
+    delete time;
+    delete score;
+    delete back;
+
 }
 
 void viewer::update()
 {
-    if(gamePlayer.getScore() == 0)
+    static int shown = 0;
+    if(gamePlayer.getScore() == 0 && shown == 0)
     {
         gamePlayer.endGame();
+        shown++;
         showWinnerPopup(0);
     }
     else
