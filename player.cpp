@@ -168,13 +168,13 @@ int player::getScore() const {
         case 2: // Medium
             baseScore = 1500;
             timePenalty = static_cast<int>(duration.count()) / 10; // 1 point per 10 seconds
-            movePenalty = moveCount * 3;      // 3 points per move
+            movePenalty = moveCount * 5;      // 5 points per move
             hintPenalty = hintCount * 50;     // 50 points per hint
         break;
         case 3: // Hard
             baseScore = 1000;
             timePenalty = static_cast<int>(duration.count()) / 5; // 1 point per 5 seconds
-            movePenalty = moveCount * 5;      // 5 points per move
+            movePenalty = moveCount * 10;      // 10 points per move
             hintPenalty = hintCount * 100;     // 100 points per hint
         break;
         default:

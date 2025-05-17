@@ -37,7 +37,19 @@ public:
     void showWinnerPopup(bool x);
 
     void initUI();
-    // ui elements
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
+    QPushButton* penModeButton;
+    QPushButton* clearPenButton;
+
+    void clearAllPenMarks();
+    void clearPenMarks(int row, int col);
+
+    bool isPenMode = false;
+    std::map<std::pair<int, int>, std::set<int>> penMarks;
+    void togglePenMode();
+    void updateCellDisplay(int row, int col);
+
     vector<vector<QLineEdit*>> labellist;
 
     QPushButton *gethint;
