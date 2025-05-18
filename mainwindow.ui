@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="EasyButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>194</y>
+      <x>200</x>
+      <y>190</y>
       <width>80</width>
       <height>29</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="MediumButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>230</y>
+      <x>200</x>
+      <y>220</y>
       <width>80</width>
       <height>29</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="HardButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>266</y>
+      <x>200</x>
+      <y>250</y>
       <width>80</width>
       <height>29</height>
      </rect>
@@ -92,7 +92,7 @@
      <x>0</x>
      <y>0</y>
      <width>500</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
