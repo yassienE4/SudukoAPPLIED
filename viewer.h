@@ -9,6 +9,7 @@
 
 #include <sudokuboard.h>
 #include <player.h>
+#include <set>
 using namespace std;
 
 class viewer : public QMainWindow

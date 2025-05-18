@@ -1,9 +1,8 @@
-#include "viewer.h"
+#include <viewer.h>
 #include <QGraphicsPixmapItem>
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QKeyEvent>
-#include <set>
 
 viewer::viewer(int d, QWidget *parent) :
     QMainWindow(parent)
