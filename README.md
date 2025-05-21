@@ -109,6 +109,35 @@ The game follows a clean architecture separating logic from UI:
 
 ---
 
+## 📁 Project Structure
+
+📦 src
+┣ 📜 main.cpp → Entry point of the application
+┣ 📜 mainwindow.cpp → UI logic for the main window
+┣ 📜 mainwindow.h → Header for main window class
+┣ 📜 mainwindow.ui → Qt Designer file for UI layout
+┣ 📜 player.cpp → Handles player state, scoring, and move logic
+┣ 📜 player.h → Header for Player class
+┣ 📜 resources.qrc → Qt resource file (icons, images, etc.)
+┣ 📜 sudoko.png → Game icon/image used in the UI
+┣ 📜 SudokuBoard.cpp → Core logic for board rules and operations
+┣ 📜 sudokuboard.h → Header for SudokuBoard class
+┣ 📜 SudokuSolver.cpp → Solving algorithms and hint generation
+┣ 📜 SudokuSolver.h → Header for SudokuSolver
+┣ 📜 sudukoQT2.pro → Qt project file
+┣ 📜 viewer.cpp → UI rendering and user interaction logic
+┗ 📜 viewer.h → Header for Viewer class
+📦data-structures
+ ┣ 📜customPair.h
+ ┣ 📜customVector.cpp
+ ┣ 📜customVector.h
+ ┣ 📜graph.cpp
+ ┣ 📜graph.h
+ ┣ 📜hashtable.cpp
+ ┣ 📜hashtable.h
+ ┣ 📜unorderedSet.cpp
+ ┗ 📜unorderedSet.h
+
 ## 🌟 Future Enhancements
 
 - Customizable themes
