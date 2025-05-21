@@ -1,4 +1,4 @@
-#include <viewer.h>
+#include "viewer.h"
 #include <QGraphicsPixmapItem>
 #include <QDialog>
 #include <QVBoxLayout>
@@ -359,7 +359,7 @@ void viewer::togglePenMode()
         penModeButton->setText("Pen Mode: On");
         penModeButton->setStyleSheet("background-color: red;");
     } else {
-        clearAllPenMarks();
+        // clearAllPenMarks();
         penModeButton->setText("Pen Mode: Off");
         penModeButton->setStyleSheet("");
     }
@@ -407,29 +407,101 @@ void viewer::updateCellDisplay(int row, int col)
 }
 
 
+
 void viewer::showWinnerPopup(bool x)
 {
-    QString winstring;
-    if(x)
-        winstring = "You Won!";
-    else
-        winstring = "You Lost!";
+    // Get current game stats
+    int scoreValue = gamePlayer.getScore();
+    int elapsed = gamePlayer.getElapsedTime();
+    int mins = elapsed / 60;
+    int secs = elapsed % 60;
+
+    // Create the dialog
     QDialog popup(this);
     popup.setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
-    popup.setFixedSize(200, 150);  // Larger popup
+    popup.setFixedSize(350, 320);  // Larger popup for more content
 
+    // Set dark theme styling with rounded corners
+    popup.setStyleSheet("QDialog { background-color: #121212; border: 2px solid #333333; border-radius: 15px; }");
+
+    // Create layout
     QVBoxLayout layout(&popup);
-    QLabel label(winstring, &popup);
-    label.setAlignment(Qt::AlignCenter);
-    label.setStyleSheet("font-size: 18pt; font-weight: bold;");
+    layout.setContentsMargins(20, 20, 20, 20);
+    layout.setSpacing(15);
 
-    QPushButton closeButton("Close", &popup);
-    closeButton.setFixedSize(100, 40);
-    connect(&closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
+    // Title label with glow effect
+    QString winstring;
+    QString message;
+    if(x) {
+        winstring = "VICTORY";
+        message = "Puzzle solved successfully!";
+    } else {
+        winstring = "GAME OVER";
+        message = "Better luck next time!";
+    }
 
-    layout.addWidget(&label);
-    layout.addWidget(&closeButton);
-    layout.setAlignment(Qt::AlignCenter);
+    QLabel* titleLabel = new QLabel(winstring, &popup);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet("font-size: 28pt; font-weight: bold; color: " +
+                              QString(x ? "#00E676" : "#FF5252") + "; margin-bottom: 10px;");
 
-    popup.exec(); // Modal dialog (use popup.show() for non-modal)
+    // Message label
+    QLabel* messageLabel = new QLabel(message, &popup);
+    messageLabel->setAlignment(Qt::AlignCenter);
+    messageLabel->setStyleSheet("font-size: 16pt; color: #BBBBBB; margin-bottom: 15px;");
+
+    // Stats frame
+    // QFrame* statsFrame = new QFrame(&popup);
+    // statsFrame->setFrameShape(QFrame::StyledPanel);
+    // statsFrame->setStyleSheet("QFrame { background-color: #1E1E1E; border-radius: 10px; padding: 15px; }");
+
+    // QVBoxLayout* statsLayout = new QVBoxLayout(statsFrame);
+
+    // Score label - Make sure to use the actual score value
+    QLabel* scoreLabel = new QLabel(QString("SCORE: %1").arg(scoreValue));
+    scoreLabel->setStyleSheet("font-size: 16pt; color: #E0E0E0; font-family: 'Courier New';");
+
+    // Time label - Make sure to format correctly with leading zeros
+    QLabel* timeLabel = new QLabel(QString("TIME: %1:%2%3").arg(mins).arg(secs < 10 ? "0" : "").arg(secs));
+    timeLabel->setStyleSheet("font-size: 16pt; color: #E0E0E0; font-family: 'Courier New';");
+
+    // Difficulty label
+    QString diffText;
+    switch(diff) {
+    case 1: diffText = "EASY"; break;
+    case 2: diffText = "MEDIUM"; break;
+    case 3: diffText = "HARD"; break;
+    default: diffText = "CUSTOM"; break;
+    }
+    QLabel* diffLabel = new QLabel(QString("DIFFICULTY: %1").arg(diffText));
+    diffLabel->setStyleSheet("font-size: 16pt; color: #E0E0E0; font-family: 'Courier New';");
+
+    // Add stats to stats layout
+    // statsLayout->addWidget(scoreLabel);
+    // statsLayout->addWidget(timeLabel);
+    // statsLayout->addWidget(diffLabel);
+
+    // Close button with hover effect
+    QPushButton* closeButton = new QPushButton("CLOSE", &popup);
+    closeButton->setFixedSize(140, 45);
+    closeButton->setStyleSheet(
+        "QPushButton { background-color: #333333; color: #FFFFFF; font-size: 14pt; "
+        "border-radius: 5px; font-weight: bold; }"
+        "QPushButton:hover { background-color: #444444; }"
+        "QPushButton:pressed { background-color: #555555; }");
+    connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
+
+    // Add all widgets to main layout
+    layout.addWidget(titleLabel);
+    layout.addWidget(messageLabel);
+    layout.addWidget(scoreLabel);
+    layout.addWidget(timeLabel);
+    layout.addWidget(diffLabel);
+    layout.addWidget(closeButton, 0, Qt::AlignCenter);
+
+    // Center the popup on the parent window
+    popup.move(this->geometry().center() - popup.rect().center());
+
+    // Show the dialog
+    popup.exec();
 }
