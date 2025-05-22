@@ -3,7 +3,7 @@
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QKeyEvent>
-
+//done
 viewer::viewer(int d, QWidget *parent) :
     QMainWindow(parent)
 {
